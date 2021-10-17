@@ -146,7 +146,8 @@ def load_image_train(image_file):
   input_image, real_image = random_jitter(input_image, real_image)
   input_image, real_image = normalize(input_image, real_image)
 
-  return input_image, real_image
+  # i switched these
+  return real_image, input_image
 
 def load_image_test(image_file):
   input_image, real_image = load(image_file)
@@ -154,7 +155,7 @@ def load_image_test(image_file):
                                    IMG_HEIGHT, IMG_WIDTH)
   input_image, real_image = normalize(input_image, real_image)
 
-  return input_image, real_image
+  return real_image, input_image
 
 """## Input Pipeline"""
 
