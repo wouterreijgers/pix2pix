@@ -255,8 +255,9 @@ def load_examples():
         input_paths = sorted(input_paths)
 
     with tf.name_scope("load_images"):
-        path_queue = tf.train.string_input_producer(input_paths, shuffle=a.mode == "train")
-        reader = tf.WholeFileReader()
+        # path_queue = tf.train.string_input_producer(input_paths, shuffle=a.mode == "train")
+        path_queue = tf.data.Dataset.from_tensor_slices(input_paths).shuffle(a.mode == "train")
+        reader = tf.data.Dataset.list_files('*')
         paths, contents = reader.read(path_queue)
         raw_input = decode(contents)
         raw_input = tf.image.convert_image_dtype(raw_input, dtype=tf.float32)
@@ -537,7 +538,7 @@ def main():
     if a.seed is None:
         a.seed = random.randint(0, 2**31 - 1)
 
-    tf.set_random_seed(a.seed)
+    tf.random.set_seed(a.seed)
     np.random.seed(a.seed)
     random.seed(a.seed)
 
